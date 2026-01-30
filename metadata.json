@@ -1,0 +1,7 @@
+{
+  "name": "Copy of Gestor-Dojo",
+  "description": "Um aplicativo de gestão completo para instrutores de artes marciais, com controle de alunos, presença, pagamentos e agendamento de aulas.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}

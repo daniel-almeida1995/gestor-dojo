@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { AreaChart, Area, ResponsiveContainer, Tooltip, ComposedChart, Line } from 'recharts';
+import { AreaChart, Area, ResponsiveContainer, Tooltip, ComposedChart, Line, PieChart, Pie, Cell, Legend } from 'recharts';
 import { Users, AlertTriangle, MapPin, Check, UserX, TrendingDown, TrendingUp, DollarSign, PlayCircle, Clock, Sun, Moon, Calendar } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
@@ -9,6 +9,7 @@ import { ChevronRight } from 'lucide-react';
 import { useFinancials } from '../hooks/useFinancials';
 import { useSettings } from '../contexts/SettingsContext';
 import { useAttendance } from '../contexts/AttendanceContext';
+import { useStudents } from '../contexts/StudentContext';
 
 const CustomTooltip = ({ active, payload, label }: any) => {
   if (active && payload && payload.length) {
@@ -83,7 +84,8 @@ export const Dashboard = () => {
   const { user } = useAuth();
   const { settings } = useSettings();
   const { stats, chartData, loading: statsLoading, refreshFinancials } = useFinancials();
-  const { todayClasses, refreshTodayClasses, loading: attendanceLoading } = useAttendance(); // Destructured useAttendance
+  const { todayClasses, refreshTodayClasses, loading: attendanceLoading } = useAttendance();
+  const { students } = useStudents(); // Destructured useAttendance
 
   const [chartReady, setChartReady] = useState(false);
   const [classesLoading, setClassesLoading] = useState(true);
@@ -234,6 +236,58 @@ export const Dashboard = () => {
   const userAvatar = user?.user_metadata?.avatar_url || "https://lh3.googleusercontent.com/aida-public/AB6AXuAb3Mko-ivL-0sCUcpEGgMMhtcd3tp3Qs0cz8d4xaVAa7RsP8uormFu69U-95zSMZlZuZB8FrUOtoj8-x7c7W6sZDmOLxoY2s3Wt3Y1F0RTpiQRHXblhO23_4xrynXjNwlVUyArDUV_Jeol3-fWY2HPZpqE_tFi90wrSK6uxK1-AJVQnGJV-unE-pn4lyX2Pjkl6EhdZcMv5ohUoe1QyeTpp60lpFsWbF3wwpJONxNfnq1w4ZcjSZTfw6SOmbpuU_lIZlrP-vR2KOk";
   const userName = user?.user_metadata?.full_name || "Mestre Rafael";
 
+  // Belt Distribution Data
+  const beltData = React.useMemo(() => {
+    if (!students || students.length === 0) return [];
+
+    // Normalize belt names to handle potential variations
+    const normalizeBelt = (belt: string) => {
+      const b = (belt || '').toLowerCase();
+      if (b.includes('branca')) return 'Branca';
+      if (b.includes('cinza')) return 'Cinza';
+      if (b.includes('amarela')) return 'Amarela';
+      if (b.includes('laranja')) return 'Laranja';
+      if (b.includes('verde')) return 'Verde';
+      if (b.includes('azul')) return 'Azul';
+      if (b.includes('roxa')) return 'Roxa';
+      if (b.includes('marrom')) return 'Marrom';
+      if (b.includes('preta')) return 'Preta';
+      return 'Outra';
+    };
+
+    const counts: Record<string, number> = {};
+    students.forEach(s => {
+      if (s.status !== 'inactive') {
+        const belt = normalizeBelt(s.belt);
+        counts[belt] = (counts[belt] || 0) + 1;
+      }
+    });
+
+    const BELT_COLORS: Record<string, string> = {
+      'Branca': '#e5e7eb', // Gray 200
+      'Cinza': '#9ca3af',  // Gray 400
+      'Amarela': '#facc15', // Yellow 400
+      'Laranja': '#fb923c', // Orange 400
+      'Verde': '#4ade80',   // Green 400
+      'Azul': '#3b82f6',    // Blue 500
+      'Roxa': '#a855f7',    // Purple 500
+      'Marrom': '#78350f',  // Brown 900
+      'Preta': '#171717',   // Neutral 900
+      'Outra': '#cbd5e1'    // Slate 300
+    };
+
+    // Correct order for display (Beginner to Expert)
+    const ORDER = ['Branca', 'Cinza', 'Amarela', 'Laranja', 'Verde', 'Azul', 'Roxa', 'Marrom', 'Preta'];
+
+    return Object.entries(counts)
+      .map(([name, value]) => ({ name, value, color: BELT_COLORS[name] || '#ccc' }))
+      .sort((a, b) => {
+        const idxA = ORDER.indexOf(a.name);
+        const idxB = ORDER.indexOf(b.name);
+        return (idxA === -1 ? 999 : idxA) - (idxB === -1 ? 999 : idxB);
+      });
+  }, [students]);
+
   return (
     <PullToRefresh onRefresh={handleRefresh} isDark={isDark}>
       <div className="flex flex-col gap-6 px-5 py-4 pb-32 transition-colors duration-300 dark:bg-gray-900 min-h-screen">
@@ -278,7 +332,7 @@ export const Dashboard = () => {
             {/* Live Class Action Card */}
             {liveClass ? (
               <section>
-                <div className="bg-gradient-to-br from-slate-800 to-slate-900 dark:from-slate-900 dark:to-black rounded-3xl p-5 text-white shadow-xl shadow-slate-900/20 relative overflow-hidden">
+                <div className="bg-gradient-to-br from-slate-800 to-slate-900 dark:from-slate-900 dark:to-black rounded-3xl p-5 text-white shadow-[0_0_30px_rgba(15,23,42,0.3)] dark:shadow-[0_0_30px_rgba(255,255,255,0.05)] relative overflow-hidden ring-1 ring-white/10">
                   {/* Background decoration */}
                   <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full -mr-10 -mt-10 blur-2xl"></div>
 
@@ -313,7 +367,7 @@ export const Dashboard = () => {
             ) : upcomingClasses.length > 0 ? (
               // If no live class, highlight the next immediate one
               <section>
-                <div className="bg-gradient-to-br from-primary to-secondary rounded-3xl p-5 text-white shadow-xl shadow-primary/20 relative overflow-hidden">
+                <div className="bg-gradient-to-br from-primary to-secondary rounded-3xl p-5 text-white shadow-[0_0_30px_rgba(31,138,173,0.3)] relative overflow-hidden ring-1 ring-white/20">
                   <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -mr-10 -mt-10 blur-2xl"></div>
                   <div className="relative z-10">
                     <div className="flex items-center gap-2 mb-2 text-white/80">
@@ -341,7 +395,7 @@ export const Dashboard = () => {
             {/* Stats Grid */}
             <section className="grid grid-cols-2 gap-4">
               <div
-                className="bg-white dark:bg-gray-800 p-5 rounded-3xl shadow-sm border border-gray-100 dark:border-gray-700 flex flex-col justify-between h-40 cursor-pointer active:scale-95 transition-all"
+                className="bg-white dark:bg-gray-800 p-5 rounded-3xl shadow-[0_0_20px_rgba(31,138,173,0.1)] dark:shadow-[0_0_20px_rgba(31,138,173,0.05)] border border-gray-100 dark:border-gray-700 flex flex-col justify-between h-40 cursor-pointer active:scale-95 transition-all hover:shadow-[0_0_30px_rgba(31,138,173,0.2)] hover:scale-[1.02]"
                 onClick={() => navigate('/students', { state: { filter: 'active' } })}
               >
                 <div className="flex justify-between items-start">
@@ -357,7 +411,7 @@ export const Dashboard = () => {
               </div>
 
               <div
-                className="bg-white dark:bg-gray-800 p-5 rounded-3xl shadow-sm border border-gray-100 dark:border-gray-700 flex flex-col justify-between h-40 cursor-pointer active:scale-95 transition-all"
+                className="bg-white dark:bg-gray-800 p-5 rounded-3xl shadow-[0_0_20px_rgba(239,68,68,0.1)] dark:shadow-[0_0_20px_rgba(239,68,68,0.05)] border border-gray-100 dark:border-gray-700 flex flex-col justify-between h-40 cursor-pointer active:scale-95 transition-all hover:shadow-[0_0_30px_rgba(239,68,68,0.2)] hover:scale-[1.02]"
                 onClick={() => navigate('/churn-risk')}
               >
                 <div className="flex justify-between items-start">
@@ -372,6 +426,8 @@ export const Dashboard = () => {
                 </div>
               </div>
             </section>
+
+
 
             {/* Alerts */}
             <section className="flex flex-col gap-4">
@@ -506,6 +562,55 @@ export const Dashboard = () => {
               </div>
             </section>
 
+            {/* Belt Distribution Chart (New Visual Upgrade) */}
+            {beltData.length > 0 && (
+              <section className="bg-white dark:bg-gray-800 rounded-3xl shadow-sm border border-gray-100 dark:border-gray-700 p-5 mb-6">
+                <h3 className="text-sm font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wide mb-4">Ecossistema do Dojô</h3>
+                <div className="h-64 w-full flex items-center justify-center relative">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <PieChart>
+                      <Pie
+                        data={beltData}
+                        cx="50%"
+                        cy="50%"
+                        innerRadius={60}
+                        outerRadius={80}
+                        paddingAngle={5}
+                        dataKey="value"
+                        stroke="none"
+                      >
+                        {beltData.map((entry, index) => (
+                          <Cell key={`cell-${index}`} fill={entry.color} stroke={isDark && entry.color === '#171717' ? '#333' : 'none'} strokeWidth={1} />
+                        ))}
+                      </Pie>
+                      <Tooltip
+                        contentStyle={{
+                          backgroundColor: isDark ? '#1f2937' : '#fff',
+                          borderRadius: '12px',
+                          border: 'none',
+                          boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
+                        }}
+                        itemStyle={{ color: isDark ? '#fff' : '#111', fontWeight: 'bold' }}
+                      />
+                      <Legend
+                        layout="vertical"
+                        verticalAlign="middle"
+                        align="right"
+                        iconType="circle"
+                        iconSize={8}
+                        wrapperStyle={{ fontSize: '10px', fontWeight: 'bold' }}
+                      />
+                    </PieChart>
+                  </ResponsiveContainer>
+                  {/* Center Stat */}
+                  <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none pr-16 lg:pr-0">
+                    <span className="text-3xl font-extrabold text-gray-900 dark:text-white">{students.filter(s => s.status === 'active').length}</span>
+                    <span className="text-[10px] uppercase font-bold text-gray-400">Alunos</span>
+                  </div>
+                </div>
+              </section>
+            )}
+
             {/* Upcoming Classes */}
             <section>
               <div className="flex items-center justify-between mb-3">
@@ -552,6 +657,8 @@ export const Dashboard = () => {
                 )}
               </div>
             </section>
+
+
           </>
         )}
       </div>

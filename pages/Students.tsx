@@ -5,6 +5,7 @@ import { Student } from '../types';
 import { PullToRefresh } from '../components/PullToRefresh';
 import { useStudents } from '../contexts/StudentContext';
 import { useSettings } from '../contexts/SettingsContext';
+import { supabase } from '../lib/supabase';
 
 // Skeleton for student row
 const StudentSkeleton = () => (
@@ -208,18 +209,41 @@ export const Students = () => {
 
     try {
       const now = new Date().toISOString();
+
+      // 1. Create Payment Record
+      const amount = paymentModalDetails?.amount || settings?.default_monthly_fee || 150;
+      const description = paymentModalDetails?.description || 'Mensalidade';
+      const referenceDate = new Date();
+      referenceDate.setDate(1); // First day of current month for reference
+
+      const { error: paymentError } = await supabase.from('payments').insert({
+        student_id: selectedStudent.id,
+        amount: amount,
+        status: 'paid',
+        payment_method: paymentMethod,
+        paid_at: now,
+        reference_month: referenceDate.toISOString().split('T')[0], // YYYY-MM-DD
+        description: description
+      });
+
+      if (paymentError) throw paymentError;
+
+      // 2. Update Student Status
       await updateStudent(selectedStudent.id, {
         status: 'active',
         lastPaymentDate: now
       });
+
       setSelectedStudent(prev => prev ? ({
         ...prev,
         status: 'active',
         lastPaymentDate: now
       }) : null);
+
       setPaymentModalOpen(false);
     } catch (error) {
-      console.error(error);
+      console.error('Error confirming payment:', error);
+      alert('Erro ao confirmar pagamento. Tente novamente.');
     }
   };
 

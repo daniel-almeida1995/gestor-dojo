@@ -402,7 +402,7 @@ export const Students = () => {
       {/* Student Detail Modal */}
       {selectedStudent && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-gray-900/60 backdrop-blur-sm animate-in fade-in duration-200">
-          <div className="bg-white dark:bg-gray-800 w-full max-w-sm rounded-3xl p-6 shadow-2xl relative animate-in zoom-in-95 duration-200 max-h-[90vh] overflow-y-auto no-scrollbar">
+          <div className="bg-white dark:bg-gray-800 w-full max-w-sm rounded-3xl p-6 shadow-2xl relative animate-in zoom-in-95 duration-200 max-h-[85dvh] overflow-y-auto">
             <button
               onClick={() => setSelectedStudent(null)}
               className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-500 dark:text-gray-300 z-10"
@@ -509,6 +509,8 @@ export const Students = () => {
                     <UserCog size={18} />
                     Ver Perfil Completo
                   </button>
+                  {/* Spacer for safer scrolling */}
+                  <div className="h-4"></div>
                 </div>
               </>
             ) : (

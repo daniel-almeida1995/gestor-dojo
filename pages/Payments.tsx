@@ -431,8 +431,8 @@ export const Payments = () => {
 
         {/* Payment Action Modal */}
         {selectedPayment && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4 animate-in fade-in duration-200">
-            <div className="bg-white dark:bg-gray-800 w-full max-w-sm rounded-3xl p-6 shadow-2xl relative animate-in zoom-in-95 duration-300">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-gray-900/40 backdrop-blur-md animate-in fade-in duration-300">
+            <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-2xl w-full max-w-sm rounded-[2.5rem] p-6 shadow-2xl relative animate-in zoom-in-95 duration-300 border border-white/20 dark:border-gray-700/30">
               <button
                 onClick={() => setSelectedPayment(null)}
                 className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 text-gray-500"

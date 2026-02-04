@@ -425,28 +425,61 @@ export const Students = () => {
 
       {/* Student Detail Modal */}
       {selectedStudent && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-gray-900/60 backdrop-blur-sm animate-in fade-in duration-200">
-          <div className="bg-white dark:bg-gray-800 w-full max-w-sm rounded-3xl p-6 shadow-2xl relative animate-in zoom-in-95 duration-200 max-h-[85dvh] overflow-y-auto">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-gray-900/40 backdrop-blur-md animate-in fade-in duration-300">
+          <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-2xl w-full max-w-sm rounded-[2.5rem] shadow-2xl relative animate-in zoom-in-95 duration-300 max-h-[85dvh] overflow-y-auto border border-white/20 dark:border-gray-700/30">
+            {/* Hero Header Gradient */}
+            <div className={`absolute top-0 left-0 right-0 h-32 bg-gradient-to-br transition-all duration-500 ${(() => {
+              const b = (selectedStudent.belt || '').toLowerCase();
+              if (b.includes('branca')) return 'from-gray-100 to-gray-300 dark:from-gray-700 dark:to-gray-900';
+              if (b.includes('cinza')) return 'from-gray-400 to-gray-600';
+              if (b.includes('amarela')) return 'from-yellow-300 to-yellow-500';
+              if (b.includes('laranja')) return 'from-orange-300 to-orange-500';
+              if (b.includes('verde')) return 'from-green-400 to-green-600';
+              if (b.includes('azul')) return 'from-blue-500 to-blue-700';
+              if (b.includes('roxa')) return 'from-purple-500 to-purple-800';
+              if (b.includes('marrom')) return 'from-amber-700 to-amber-900';
+              if (b.includes('preta')) return 'from-neutral-800 to-black';
+              return 'from-primary to-secondary';
+            })()
+              }`}></div>
+
             <button
               onClick={() => setSelectedStudent(null)}
-              className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-500 dark:text-gray-300 z-10"
+              className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full bg-white/20 hover:bg-white/40 backdrop-blur-md text-white border border-white/20 transition-all z-20"
             >
               <X size={18} />
             </button>
 
             {/* Header Content */}
-            <div className="flex flex-col items-center mb-6 pt-2">
-              <div className="w-24 h-24 rounded-full overflow-hidden mb-3 border-4 border-white dark:border-gray-700 shadow-lg relative">
+            <div className="flex flex-col items-center mb-6 pt-6 relative z-10">
+              <div className="w-28 h-28 rounded-3xl overflow-hidden mb-4 border-4 border-white dark:border-gray-800 shadow-2xl relative group transition-transform duration-500 hover:scale-105">
                 {selectedStudent.avatar ? (
                   <img src={selectedStudent.avatar} alt={selectedStudent.name} className="w-full h-full object-cover" />
                 ) : (
-                  <div className="w-full h-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center text-2xl font-bold text-gray-400">
+                  <div className="w-full h-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center text-3xl font-bold text-gray-400">
                     {selectedStudent.name.substring(0, 2)}
                   </div>
                 )}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
               </div>
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-white text-center">{selectedStudent.name}</h2>
-              <p className="text-sm font-medium text-gray-500 dark:text-gray-400">{selectedStudent.modality} • {selectedStudent.belt}</p>
+              <h2 className="text-2xl font-black text-gray-900 dark:text-white text-center leading-tight">{selectedStudent.name}</h2>
+              <div className="flex items-center gap-2 mt-1">
+                <span className="px-3 py-1 bg-black/10 dark:bg-white/10 rounded-full text-[10px] font-black uppercase tracking-widest text-gray-600 dark:text-gray-300 backdrop-blur-sm border border-black/5 dark:border-white/5">
+                  {selectedStudent.modality}
+                </span>
+                <span className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest text-white shadow-lg shadow-black/10 ${(() => {
+                  const b = (selectedStudent.belt || '').toLowerCase();
+                  if (b.includes('branca')) return 'bg-gray-400';
+                  if (b.includes('azul')) return 'bg-blue-600';
+                  if (b.includes('roxa')) return 'bg-purple-600';
+                  if (b.includes('marrom')) return 'bg-amber-800';
+                  if (b.includes('preta')) return 'bg-black';
+                  return 'bg-secondary';
+                })()
+                  }`}>
+                  {selectedStudent.belt}
+                </span>
+              </div>
             </div>
 
             {/* View Switch: Details or History */}
@@ -581,9 +614,9 @@ export const Students = () => {
       )}
 
       {/* Payment Confirmation Modal Overlay */}
-      {paymentModalOpen && paymentModalDetails && (
-        <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/40 backdrop-blur-sm p-4 animate-in fade-in duration-200">
-          <div className="bg-white w-full max-w-sm rounded-3xl p-6 shadow-2xl relative animate-in zoom-in-95 duration-300">
+      {paymentModalOpen && selectedStudent && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-gray-900/40 backdrop-blur-md animate-in fade-in duration-300">
+          <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-2xl w-full max-w-sm rounded-[2.5rem] p-6 shadow-2xl relative animate-in zoom-in-95 duration-300 border border-white/20 dark:border-gray-700/30">
             <button
               onClick={() => setPaymentModalOpen(false)}
               className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 text-gray-500"

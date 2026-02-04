@@ -32,6 +32,9 @@ export const SettingsProvider = ({ children }: { children?: React.ReactNode }) =
     const [loading, setLoading] = useState(true);
 
     const fetchSettings = async () => {
+        // Start loading whenever we try to fetch
+        setLoading(true);
+
         if (!session?.user) {
             setSettings(null);
             setLoading(false);

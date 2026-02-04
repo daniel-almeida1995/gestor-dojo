@@ -36,8 +36,9 @@ export const Settings = () => {
             await updateSettings(formData);
             // Show success feedback?
             navigate('/dashboard');
-        } catch (error) {
+        } catch (error: any) {
             console.error(error);
+            alert(`Erro ao salvar: ${error.message || JSON.stringify(error)}`);
         } finally {
             setIsSaving(false);
         }

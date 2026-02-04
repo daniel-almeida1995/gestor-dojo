@@ -58,9 +58,9 @@ const ProtectedRoute = ({ children }: { children?: React.ReactNode }) => {
 
   // Onboarding Logic: If logged in but no settings, force redirect to /settings
   // But allow access to /settings itself to avoid infinite loop
-  if (session && !settings && location.pathname !== '/settings') {
-    return <Navigate to="/settings" replace />;
-  }
+  // if (session && !settings && location.pathname !== '/settings') {
+  //   return <Navigate to="/settings" replace />;
+  // }
 
   return <>{children}</>;
 };
@@ -94,20 +94,18 @@ const AppRoutes = () => {
 const App = () => {
   return (
     <AuthProvider>
-      <AuthProvider>
-        <SettingsProvider>
-          <StudentProvider>
-            <AttendanceProvider>
-              <HashRouter>
-                <Layout>
-                  <AppRoutes />
-                  <Toaster position="top-center" richColors />
-                </Layout>
-              </HashRouter>
-            </AttendanceProvider>
-          </StudentProvider>
-        </SettingsProvider>
-      </AuthProvider>
+      <SettingsProvider>
+        <StudentProvider>
+          <AttendanceProvider>
+            <HashRouter>
+              <Layout>
+                <AppRoutes />
+                <Toaster position="top-center" richColors />
+              </Layout>
+            </HashRouter>
+          </AttendanceProvider>
+        </StudentProvider>
+      </SettingsProvider>
     </AuthProvider>
   );
 };

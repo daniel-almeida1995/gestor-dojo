@@ -39,18 +39,19 @@ export const SettingsProvider = ({ children }: { children?: React.ReactNode }) =
         }
 
         try {
+            // Use select with limit(1) instead of single() to avoid PGRST116 (0 rows) or PGRST100 (multiple rows) errors causing a hard fail
             const { data, error } = await supabase
                 .from('organization_settings')
                 .select('*')
                 .eq('user_id', session.user.id)
-                .single();
+                .limit(1);
 
-            if (error && error.code !== 'PGRST116') { // PGRST116 is "Row not found"
+            if (error) {
                 console.error('Error fetching settings:', error);
             }
 
-            if (data) {
-                setSettings(data);
+            if (data && data.length > 0) {
+                setSettings(data[0]);
             } else {
                 // Init default settings if none exist
                 const newSettings = {
@@ -64,9 +65,11 @@ export const SettingsProvider = ({ children }: { children?: React.ReactNode }) =
                 // Optimistic update
                 setSettings({ ...newSettings, id: 'temp' } as OrganizationSettings);
 
-                // Currently we are NOT auto-creating settings here effectively
-                // We let the /settings page or a dedicated init step do it
-                // Or we treat null settings as "Needs Onboarding"
+                // Note: We leave 'settings' as the optimistic value, but since it has id='temp', 
+                // subsequent calls/logic might behave differently. 
+                // Ideally, we want the App to force the user to save if it really is new.
+                // But for "persistence loop" fixing, finding *any* record is key.
+                // If we didn't find one, we reset to null so App redirects to onboarding.
                 setSettings(null);
             }
         } catch (err) {

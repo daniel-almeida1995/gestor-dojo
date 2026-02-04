@@ -293,24 +293,24 @@ export const Schedule = () => {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-gray-50 pb-24 relative">
+    <div className="flex flex-col min-h-screen bg-gray-50 dark:bg-gray-900 pb-24 relative">
       {/* Header */}
-      <header className="sticky top-0 z-30 bg-white/95 backdrop-blur-md transition-all duration-300 shadow-sm">
+      <header className="sticky top-0 z-30 bg-white/95 dark:bg-gray-900/95 backdrop-blur-md transition-all duration-300 shadow-sm dark:shadow-none dark:border-b dark:border-gray-800">
         <div className="px-5 pt-6 pb-2 flex items-center justify-between">
           <div>
-            <p className="text-sm font-semibold text-gray-500 mb-0.5 capitalize">
+            <p className="text-sm font-semibold text-gray-500 dark:text-gray-400 mb-0.5 capitalize">
               {monthNames[selectedDate.getMonth()]} {selectedDate.getFullYear()}
             </p>
-            <h1 className="text-2xl font-extrabold text-gray-900 tracking-tight">Agenda de Aulas</h1>
+            <h1 className="text-2xl font-extrabold text-gray-900 dark:text-white tracking-tight">Agenda de Aulas</h1>
           </div>
 
           <div className="flex items-center gap-2">
             <button
               onClick={fetchClasses}
-              className="p-2 rounded-full hover:bg-gray-100 transition-colors"
+              className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
               disabled={isLoading}
             >
-              <RefreshCw size={20} className={`text-gray-900 ${isLoading ? 'animate-spin' : ''}`} />
+              <RefreshCw size={20} className={`text-gray-900 dark:text-white ${isLoading ? 'animate-spin' : ''}`} />
             </button>
 
             <div className="relative group">
@@ -319,9 +319,9 @@ export const Schedule = () => {
                 className="absolute inset-0 w-full h-full opacity-0 z-10 cursor-pointer"
                 onChange={handleDateSelect}
               />
-              <div className="relative p-2 rounded-full group-hover:bg-gray-100 group-active:bg-gray-200 transition-colors">
-                <CalendarIcon size={24} className="text-gray-900" />
-                <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border-2 border-white"></span>
+              <div className="relative p-2 rounded-full group-hover:bg-gray-100 dark:group-hover:bg-gray-800 group-active:bg-gray-200 dark:group-active:bg-gray-700 transition-colors">
+                <CalendarIcon size={24} className="text-gray-900 dark:text-white" />
+                <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border-2 border-white dark:border-gray-900"></span>
               </div>
             </div>
           </div>
@@ -340,7 +340,7 @@ export const Schedule = () => {
                   onClick={() => setSelectedDate(date)}
                   className={`flex flex-col items-center justify-center min-w-[52px] h-[72px] rounded-2xl border transition-all duration-200 ${isSelected
                     ? 'bg-[#1f8aad] border-[#1f8aad] text-white shadow-lg shadow-[#1f8aad]/30 scale-105'
-                    : 'bg-transparent border-transparent text-gray-400 hover:bg-gray-100'
+                    : 'bg-transparent border-transparent text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800'
                     }`}
                 >
                   <span className={`text-xs font-bold mb-1 ${isSelected ? 'opacity-80' : ''}`}>
@@ -363,8 +363,8 @@ export const Schedule = () => {
                 key={f}
                 onClick={() => setFilter(f as any)}
                 className={`px-5 py-2 rounded-full text-sm font-bold shadow-sm whitespace-nowrap transition-colors ${filter === f
-                  ? 'bg-slate-900 text-white'
-                  : 'bg-white border border-gray-200 text-gray-600 hover:bg-gray-50'
+                  ? 'bg-slate-900 dark:bg-white text-white dark:text-slate-900'
+                  : 'bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'
                   }`}
               >
                 {f}
@@ -387,8 +387,8 @@ export const Schedule = () => {
             <div className="w-16 h-16 bg-gray-200 rounded-full flex items-center justify-center mb-4 text-gray-400">
               <CalendarIcon size={32} />
             </div>
-            <p className="text-gray-900 font-bold text-lg">Sem aulas</p>
-            <p className="text-gray-500 text-sm max-w-[200px]">Não há aulas agendadas para esta data ou filtro.</p>
+            <p className="text-gray-900 dark:text-white font-bold text-lg">Sem aulas</p>
+            <p className="text-gray-500 dark:text-gray-400 text-sm max-w-[200px]">Não há aulas agendadas para esta data ou filtro.</p>
           </div>
         ) : (
           filteredClasses.map((session, idx) => {
@@ -398,7 +398,7 @@ export const Schedule = () => {
               <div key={session.id} className="relative group">
                 {/* Timeline Line */}
                 {!isLast && (
-                  <div className={`absolute left-[26px] top-12 bottom-[-12px] w-0.5 ${session.status === 'completed' ? 'border-l-2 border-dashed border-gray-200' : 'bg-gray-200'
+                  <div className={`absolute left-[26px] top-12 bottom-[-12px] w-0.5 ${session.status === 'completed' ? 'border-l-2 border-dashed border-gray-200 dark:border-gray-700' : 'bg-gray-200 dark:bg-gray-700'
                     }`}></div>
                 )}
 
@@ -406,33 +406,33 @@ export const Schedule = () => {
                   {/* Time Column */}
                   <div className={`flex flex-col items-center min-w-[56px] pt-2 ${session.status === 'completed' ? 'opacity-50' : ''
                     }`}>
-                    <span className={`text-base font-bold ${session.status === 'active' ? 'text-[#1f8aad]' : 'text-gray-900'}`}>
+                    <span className={`text-base font-bold ${session.status === 'active' ? 'text-[#1f8aad]' : 'text-gray-900 dark:text-white'}`}>
                       {session.time}
                     </span>
-                    <span className="text-[10px] font-bold text-gray-500">{session.ampm}</span>
+                    <span className="text-[10px] font-bold text-gray-500 dark:text-gray-400">{session.ampm}</span>
 
                     {/* Status Dot */}
                     <div className={`mt-3 w-3 h-3 rounded-full z-10 border-2 ${session.status === 'active' ? 'bg-[#1f8aad] border-[#1f8aad] shadow-[0_0_0_4px_rgba(31,138,173,0.2)] animate-pulse' :
                       session.status === 'waitlist' ? 'bg-white border-orange-400' :
-                        session.status === 'completed' ? 'bg-gray-100 border-gray-300' :
-                          'bg-gray-300 border-gray-300'
+                        session.status === 'completed' ? 'bg-gray-100 dark:bg-gray-700 border-gray-300 dark:border-gray-600' :
+                          'bg-gray-300 dark:bg-gray-600 border-gray-300 dark:border-gray-500'
                       }`}></div>
                   </div>
 
                   {/* Card Content - Clickable for details */}
                   <div
                     onClick={() => setSelectedClass(session)}
-                    className={`flex-1 rounded-2xl border shadow-sm overflow-hidden transition-all cursor-pointer active:scale-[0.98] ${session.status === 'active' ? 'bg-white border-blue-100 shadow-md ring-1 ring-blue-500/10' :
-                      session.status === 'waitlist' ? 'bg-white border-orange-100 opacity-90' :
-                        session.status === 'completed' ? 'bg-gray-50 border-gray-100' :
-                          'bg-white border-gray-100'
+                    className={`flex-1 rounded-2xl border shadow-sm overflow-hidden transition-all cursor-pointer active:scale-[0.98] ${session.status === 'active' ? 'bg-white dark:bg-gray-800 border-blue-100 dark:border-blue-900/30 shadow-md ring-1 ring-blue-500/10' :
+                      session.status === 'waitlist' ? 'bg-white dark:bg-gray-800 border-orange-100 dark:border-orange-900/30 opacity-90' :
+                        session.status === 'completed' ? 'bg-gray-50 dark:bg-gray-800/50 border-gray-100 dark:border-gray-700' :
+                          'bg-white dark:bg-gray-800 border-gray-100 dark:border-gray-700'
                       }`}>
                     <div className="flex h-full">
                       {/* Left Border Indicator */}
                       <div className={`w-1.5 h-auto ${session.status === 'active' ? 'bg-[#1f8aad]' :
                         session.status === 'waitlist' ? 'bg-orange-500' :
-                          session.status === 'completed' ? 'bg-gray-300' :
-                            'bg-slate-800'
+                          session.status === 'completed' ? 'bg-gray-300 dark:bg-gray-600' :
+                            'bg-slate-800 dark:bg-slate-600'
                         }`}></div>
 
                       <div className="flex-1 p-4 flex flex-col gap-2">
@@ -459,12 +459,12 @@ export const Schedule = () => {
                               )}
                             </div>
 
-                            <h3 className={`text-base font-bold text-gray-900 leading-tight ${session.status === 'completed' ? 'line-through text-gray-500' : ''
+                            <h3 className={`text-base font-bold text-gray-900 dark:text-white leading-tight ${session.status === 'completed' ? 'line-through text-gray-500 dark:text-gray-500' : ''
                               }`}>
                               {session.title}
                             </h3>
 
-                            <div className="flex items-center gap-2 mt-1 text-sm text-gray-500">
+                            <div className="flex items-center gap-2 mt-1 text-sm text-gray-500 dark:text-gray-400">
                               <span className="flex items-center gap-1">
                                 <Users size={12} />
                                 {session.instructor}
@@ -514,7 +514,7 @@ export const Schedule = () => {
       {/* FAB to add new class */}
       <button
         onClick={() => setIsNewClassModalOpen(true)}
-        className="fixed bottom-24 right-5 w-14 h-14 bg-slate-900 text-white rounded-full shadow-lg shadow-slate-900/30 flex items-center justify-center hover:scale-105 active:scale-95 transition-all z-30"
+        className="fixed bottom-24 right-5 w-14 h-14 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-full shadow-lg shadow-slate-900/30 flex items-center justify-center hover:scale-105 active:scale-95 transition-all z-30"
       >
         <Plus size={28} />
       </button>
@@ -522,25 +522,25 @@ export const Schedule = () => {
       {/* New Class Modal */}
       {isNewClassModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4 animate-in fade-in duration-200">
-          <div className="bg-white w-full max-w-sm rounded-3xl p-6 shadow-2xl relative animate-in zoom-in-95 duration-300 max-h-[90vh] overflow-y-auto">
+          <div className="bg-white dark:bg-gray-800 w-full max-w-sm rounded-3xl p-6 shadow-2xl relative animate-in zoom-in-95 duration-300 max-h-[90vh] overflow-y-auto">
             <button
               onClick={() => setIsNewClassModalOpen(false)}
-              className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 text-gray-500"
+              className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-500 dark:text-gray-300"
             >
               <X size={18} />
             </button>
 
-            <h2 className="text-xl font-bold text-gray-900 mb-6">{editingClassId ? 'Editar Aula' : 'Agendar Nova Aula'}</h2>
+            <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-6">{editingClassId ? 'Editar Aula' : 'Agendar Nova Aula'}</h2>
 
             <form onSubmit={handleSaveClass} className="flex flex-col gap-4">
               <div>
-                <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 ml-1">Título da Aula</label>
+                <label className="block text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2 ml-1">Título da Aula</label>
                 <input
                   type="text"
                   value={newClassTitle}
                   onChange={(e) => setNewClassTitle(e.target.value)}
                   placeholder="Ex: Treino de Competição"
-                  className="w-full h-12 px-4 rounded-xl bg-gray-50 border border-gray-200 focus:border-[#1f8aad] focus:ring-0 text-gray-900 font-bold"
+                  className="w-full h-12 px-4 rounded-xl bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 focus:border-[#1f8aad] focus:ring-0 text-gray-900 dark:text-white font-bold placeholder:text-gray-400"
                 />
               </div>
 
@@ -548,14 +548,14 @@ export const Schedule = () => {
                 <button
                   type="button"
                   onClick={() => setNewClassModality('Jiu-Jitsu')}
-                  className={`h-12 rounded-xl border flex items-center justify-center font-bold text-sm transition-all ${newClassModality === 'Jiu-Jitsu' ? 'bg-[#1f8aad] text-white border-[#1f8aad]' : 'bg-white text-gray-500 border-gray-200'}`}
+                  className={`h-12 rounded-xl border flex items-center justify-center font-bold text-sm transition-all ${newClassModality === 'Jiu-Jitsu' ? 'bg-[#1f8aad] text-white border-[#1f8aad]' : 'bg-white dark:bg-gray-700 text-gray-500 dark:text-gray-300 border-gray-200 dark:border-gray-600'}`}
                 >
                   Jiu-Jitsu
                 </button>
                 <button
                   type="button"
                   onClick={() => setNewClassModality('Judô')}
-                  className={`h-12 rounded-xl border flex items-center justify-center font-bold text-sm transition-all ${newClassModality === 'Judô' ? 'bg-[#1f8aad] text-white border-[#1f8aad]' : 'bg-white text-gray-500 border-gray-200'}`}
+                  className={`h-12 rounded-xl border flex items-center justify-center font-bold text-sm transition-all ${newClassModality === 'Judô' ? 'bg-[#1f8aad] text-white border-[#1f8aad]' : 'bg-white dark:bg-gray-700 text-gray-500 dark:text-gray-300 border-gray-200 dark:border-gray-600'}`}
                 >
                   Judô
                 </button>
@@ -563,33 +563,33 @@ export const Schedule = () => {
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 ml-1">Início</label>
+                  <label className="block text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2 ml-1">Início</label>
                   <input
                     type="time"
                     value={newClassStartTime}
                     onChange={(e) => setNewClassStartTime(e.target.value)}
-                    className="w-full h-12 px-3 rounded-xl bg-gray-50 border border-gray-200 focus:border-[#1f8aad] focus:ring-0 text-gray-900 font-bold"
+                    className="w-full h-12 px-3 rounded-xl bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 focus:border-[#1f8aad] focus:ring-0 text-gray-900 dark:text-white font-bold"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 ml-1">Fim</label>
+                  <label className="block text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2 ml-1">Fim</label>
                   <input
                     type="time"
                     value={newClassEndTime}
                     onChange={(e) => setNewClassEndTime(e.target.value)}
-                    className="w-full h-12 px-3 rounded-xl bg-gray-50 border border-gray-200 focus:border-[#1f8aad] focus:ring-0 text-gray-900 font-bold"
+                    className="w-full h-12 px-3 rounded-xl bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 focus:border-[#1f8aad] focus:ring-0 text-gray-900 dark:text-white font-bold"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 ml-1">Observações</label>
+                <label className="block text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2 ml-1">Observações</label>
                 <div className="relative">
                   <textarea
                     value={newClassObservations}
                     onChange={(e) => setNewClassObservations(e.target.value)}
                     placeholder="Instruções especiais, equipamentos necessários..."
-                    className="w-full h-24 px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 focus:border-[#1f8aad] focus:ring-0 text-gray-900 font-medium resize-none"
+                    className="w-full h-24 px-4 py-3 rounded-xl bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 focus:border-[#1f8aad] focus:ring-0 text-gray-900 dark:text-white font-medium resize-none placeholder:text-gray-400"
                   />
                   <AlignLeft size={18} className="absolute right-3 top-3 text-gray-400" />
                 </div>
@@ -610,10 +610,10 @@ export const Schedule = () => {
       {/* Class Details Modal */}
       {selectedClass && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4 animate-in fade-in duration-200">
-          <div className="bg-white w-full max-w-sm rounded-3xl p-6 shadow-2xl relative animate-in zoom-in-95 duration-300">
+          <div className="bg-white dark:bg-gray-800 w-full max-w-sm rounded-3xl p-6 shadow-2xl relative animate-in zoom-in-95 duration-300">
             <button
               onClick={() => setSelectedClass(null)}
-              className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 text-gray-500"
+              className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-500 dark:text-gray-300"
             >
               <X size={18} />
             </button>
@@ -623,50 +623,50 @@ export const Schedule = () => {
                 }`}>
                 {selectedClass.modality}
               </span>
-              <h2 className="text-xl font-bold text-gray-900 leading-tight">{selectedClass.title}</h2>
+              <h2 className="text-xl font-bold text-gray-900 dark:text-white leading-tight">{selectedClass.title}</h2>
             </div>
 
             <div className="space-y-4 mb-6">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-gray-50 flex items-center justify-center text-gray-500">
+                <div className="w-10 h-10 rounded-xl bg-gray-50 dark:bg-gray-700 flex items-center justify-center text-gray-500 dark:text-gray-400">
                   <Clock size={20} />
                 </div>
                 <div>
                   <p className="text-xs font-bold text-gray-400 uppercase">Horário</p>
-                  <p className="text-sm font-bold text-gray-900">{selectedClass.time} - {selectedClass.endTime}</p>
+                  <p className="text-sm font-bold text-gray-900 dark:text-white">{selectedClass.time} - {selectedClass.endTime}</p>
                 </div>
               </div>
 
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-gray-50 flex items-center justify-center text-gray-500">
+                <div className="w-10 h-10 rounded-xl bg-gray-50 dark:bg-gray-700 flex items-center justify-center text-gray-500 dark:text-gray-400">
                   <Users size={20} />
                 </div>
                 <div>
                   <p className="text-xs font-bold text-gray-400 uppercase">Instrutor</p>
-                  <p className="text-sm font-bold text-gray-900">{selectedClass.instructor}</p>
+                  <p className="text-sm font-bold text-gray-900 dark:text-white">{selectedClass.instructor}</p>
                 </div>
               </div>
 
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-gray-50 flex items-center justify-center text-gray-500">
+                <div className="w-10 h-10 rounded-xl bg-gray-50 dark:bg-gray-700 flex items-center justify-center text-gray-500 dark:text-gray-400">
                   <MapPin size={20} />
                 </div>
                 <div>
                   <p className="text-xs font-bold text-gray-400 uppercase">Local</p>
-                  <p className="text-sm font-bold text-gray-900">{selectedClass.location}</p>
+                  <p className="text-sm font-bold text-gray-900 dark:text-white">{selectedClass.location}</p>
                 </div>
               </div>
 
-              <div className="bg-gray-50 p-4 rounded-xl border border-gray-100 group focus-within:ring-2 focus-within:ring-[#1f8aad] transition-all relative">
+              <div className="bg-gray-50 dark:bg-gray-700/50 p-4 rounded-xl border border-gray-100 dark:border-gray-600 group focus-within:ring-2 focus-within:ring-[#1f8aad] transition-all relative">
                 <div className="flex justify-between items-center mb-2">
                   <p className="text-xs font-bold text-gray-400 uppercase">Observações</p>
-                  <Edit3 size={14} className="text-gray-300" />
+                  <Edit3 size={14} className="text-gray-300 dark:text-gray-500" />
                 </div>
                 <textarea
                   value={editingObservations}
                   onChange={(e) => setEditingObservations(e.target.value)}
                   placeholder="Adicione observações sobre esta aula..."
-                  className="w-full bg-transparent border-none p-0 text-sm text-gray-700 font-medium leading-relaxed resize-none focus:ring-0 placeholder:text-gray-400"
+                  className="w-full bg-transparent border-none p-0 text-sm text-gray-700 dark:text-gray-300 font-medium leading-relaxed resize-none focus:ring-0 placeholder:text-gray-400"
                   rows={3}
                 />
                 {editingObservations !== (selectedClass.observations || '') && (
@@ -690,7 +690,7 @@ export const Schedule = () => {
             <div className="flex gap-3">
               <button
                 onClick={handleEditClass}
-                className="h-12 w-12 bg-gray-100 text-gray-600 rounded-xl flex items-center justify-center hover:bg-gray-200 transition-colors"
+                className="h-12 w-12 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 rounded-xl flex items-center justify-center hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
                 title="Editar Aula"
               >
                 <Edit3 size={20} />

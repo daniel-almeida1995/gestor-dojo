@@ -240,14 +240,14 @@ export const Students = () => {
   return (
     <>
       <PullToRefresh onRefresh={handleRefresh}>
-        <div className="flex flex-col min-h-screen bg-gray-50 pb-24">
+        <div className="flex flex-col min-h-screen bg-gray-50 dark:bg-gray-900 pb-24">
           {/* Sticky Header */}
-          <div className="sticky top-0 z-30 bg-gray-50/95 backdrop-blur-md border-b border-gray-200">
+          <div className="sticky top-0 z-30 bg-gray-50/95 dark:bg-gray-900/95 backdrop-blur-md border-b border-gray-200 dark:border-gray-700">
             <div className="flex items-center p-4 justify-between">
-              <button onClick={() => navigate('/dashboard')} className="w-10 h-10 flex items-center justify-center rounded-full active:bg-gray-200 transition-colors">
-                <ArrowLeft size={24} className="text-gray-900" />
+              <button onClick={() => navigate('/dashboard')} className="w-10 h-10 flex items-center justify-center rounded-full active:bg-gray-200 dark:active:bg-gray-700 transition-colors">
+                <ArrowLeft size={24} className="text-gray-900 dark:text-white" />
               </button>
-              <h2 className="text-xl font-bold text-gray-900">Gerenciar Alunos</h2>
+              <h2 className="text-xl font-bold text-gray-900 dark:text-white">Gerenciar Alunos</h2>
               <div className="w-10" />
             </div>
 
@@ -259,7 +259,7 @@ export const Students = () => {
                   placeholder="Buscar por nome..."
                   value={localSearch}
                   onChange={(e) => setLocalSearch(e.target.value)}
-                  className="w-full h-12 pl-11 pr-10 rounded-2xl border-none bg-white shadow-sm ring-1 ring-gray-200 focus:ring-2 focus:ring-secondary text-gray-900 placeholder:text-gray-400"
+                  className="w-full h-12 pl-11 pr-10 rounded-2xl border-none bg-white dark:bg-gray-800 shadow-sm ring-1 ring-gray-200 dark:ring-gray-700 focus:ring-2 focus:ring-secondary text-gray-900 dark:text-white placeholder:text-gray-400"
                 />
                 <button className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-secondary">
                   <SlidersHorizontal size={20} />
@@ -278,8 +278,8 @@ export const Students = () => {
                   key={t.value}
                   onClick={() => setStatusFilter(t.value)}
                   className={`whitespace-nowrap rounded-full px-4 py-1.5 text-xs font-bold transition-colors ${statusFilter === t.value
-                    ? 'bg-gray-900 text-white'
-                    : 'bg-white border border-gray-200 text-gray-600'
+                    ? 'bg-gray-900 dark:bg-white text-white dark:text-gray-900'
+                    : 'bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300'
                     }`}
                 >
                   {t.label}
@@ -309,11 +309,11 @@ export const Students = () => {
                     <div
                       key={student.id}
                       onClick={() => setSelectedStudent(student)}
-                      className={`group bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex flex-col gap-3 active:scale-[0.99] transition-transform cursor-pointer hover:border-secondary/30 ${student.status === 'inactive' ? 'opacity-60' : ''}`}
+                      className={`group bg-white dark:bg-gray-800 p-4 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 flex flex-col gap-3 active:scale-[0.99] transition-transform cursor-pointer hover:border-secondary/30 ${student.status === 'inactive' ? 'opacity-60' : ''}`}
                     >
                       <div className="flex items-start justify-between gap-3">
                         <div className="flex items-center gap-3">
-                          <div className={`w-14 h-14 rounded-full overflow-hidden shrink-0 ${!student.avatar ? 'bg-amber-100 flex items-center justify-center text-amber-600 font-bold text-lg' : 'bg-gray-100'}`}>
+                          <div className={`w-14 h-14 rounded-full overflow-hidden shrink-0 ${!student.avatar ? 'bg-amber-100 dark:bg-amber-900/30 flex items-center justify-center text-amber-600 dark:text-amber-500 font-bold text-lg' : 'bg-gray-100 dark:bg-gray-700'}`}>
                             {student.avatar ? (
                               <img src={student.avatar} alt={student.name} className="w-full h-full object-cover" />
                             ) : (
@@ -321,7 +321,7 @@ export const Students = () => {
                             )}
                           </div>
                           <div>
-                            <h3 className={`text-base font-bold text-gray-900 ${student.status === 'inactive' ? 'line-through text-gray-400' : ''}`}>{student.name}</h3>
+                            <h3 className={`text-base font-bold text-gray-900 dark:text-white ${student.status === 'inactive' ? 'line-through text-gray-400' : ''}`}>{student.name}</h3>
                             <div className="flex items-center gap-1.5 mt-1">
                               <span className="text-xs font-bold text-gray-500 uppercase">{student.modality}</span>
                               {student.belt && (
@@ -329,7 +329,7 @@ export const Students = () => {
                                   <span className="w-1 h-1 rounded-full bg-gray-300"></span>
                                   <div className="flex items-center gap-1">
                                     <span className="w-2 h-2 rounded-full" style={{ backgroundColor: student.beltColor }}></span>
-                                    <span className="text-xs font-medium text-gray-500">{student.belt}</span>
+                                    <span className="text-xs font-medium text-gray-500 dark:text-gray-400">{student.belt}</span>
                                   </div>
                                 </>
                               )}
@@ -370,17 +370,17 @@ export const Students = () => {
                   <button
                     disabled={page === 1}
                     onClick={() => setPage(page - 1)}
-                    className="px-4 py-2 bg-white border border-gray-200 rounded-xl text-sm font-bold disabled:opacity-50 active:scale-95 transition-transform"
+                    className="px-4 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-sm font-bold disabled:opacity-50 active:scale-95 transition-transform text-gray-700 dark:text-gray-300"
                   >
                     Anterior
                   </button>
-                  <span className="text-xs font-medium text-gray-500">
+                  <span className="text-xs font-medium text-gray-500 dark:text-gray-400">
                     Página {page} de {Math.max(1, Math.ceil(total / perPage))}
                   </span>
                   <button
                     disabled={page * perPage >= total}
                     onClick={() => setPage(page + 1)}
-                    className="px-4 py-2 bg-white border border-gray-200 rounded-xl text-sm font-bold disabled:opacity-50 active:scale-95 transition-transform"
+                    className="px-4 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-sm font-bold disabled:opacity-50 active:scale-95 transition-transform text-gray-700 dark:text-gray-300"
                   >
                     Próximo
                   </button>
@@ -402,27 +402,27 @@ export const Students = () => {
       {/* Student Detail Modal */}
       {selectedStudent && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-gray-900/60 backdrop-blur-sm animate-in fade-in duration-200">
-          <div className="bg-white w-full max-w-sm rounded-3xl p-6 shadow-2xl relative animate-in zoom-in-95 duration-200 max-h-[90vh] overflow-y-auto no-scrollbar">
+          <div className="bg-white dark:bg-gray-800 w-full max-w-sm rounded-3xl p-6 shadow-2xl relative animate-in zoom-in-95 duration-200 max-h-[90vh] overflow-y-auto no-scrollbar">
             <button
               onClick={() => setSelectedStudent(null)}
-              className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 text-gray-500 z-10"
+              className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-500 dark:text-gray-300 z-10"
             >
               <X size={18} />
             </button>
 
             {/* Header Content */}
             <div className="flex flex-col items-center mb-6 pt-2">
-              <div className="w-24 h-24 rounded-full overflow-hidden mb-3 border-4 border-white shadow-lg relative">
+              <div className="w-24 h-24 rounded-full overflow-hidden mb-3 border-4 border-white dark:border-gray-700 shadow-lg relative">
                 {selectedStudent.avatar ? (
                   <img src={selectedStudent.avatar} alt={selectedStudent.name} className="w-full h-full object-cover" />
                 ) : (
-                  <div className="w-full h-full bg-gray-100 flex items-center justify-center text-2xl font-bold text-gray-400">
+                  <div className="w-full h-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center text-2xl font-bold text-gray-400">
                     {selectedStudent.name.substring(0, 2)}
                   </div>
                 )}
               </div>
-              <h2 className="text-2xl font-bold text-gray-900 text-center">{selectedStudent.name}</h2>
-              <p className="text-sm font-medium text-gray-500">{selectedStudent.modality} • {selectedStudent.belt}</p>
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-white text-center">{selectedStudent.name}</h2>
+              <p className="text-sm font-medium text-gray-500 dark:text-gray-400">{selectedStudent.modality} • {selectedStudent.belt}</p>
             </div>
 
             {/* View Switch: Details or History */}
@@ -441,13 +441,13 @@ export const Students = () => {
                       </button>
                     </div>
 
-                    <div className="bg-gray-50 p-1 rounded-xl mb-3 border border-gray-100">
+                    <div className="bg-gray-50 dark:bg-gray-700/30 p-1 rounded-xl mb-3 border border-gray-100 dark:border-gray-700">
                       <BeltBar color={selectedStudent.beltColor} degrees={selectedStudent.degrees || 0} className="h-14 rounded-lg" />
                     </div>
 
                     <button
                       onClick={handleAddDegree}
-                      className="w-full py-3 bg-white border border-gray-200 hover:bg-gray-50 rounded-xl text-sm font-bold text-gray-700 flex items-center justify-center gap-2 transition-all shadow-sm active:scale-95"
+                      className="w-full py-3 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-600 rounded-xl text-sm font-bold text-gray-700 dark:text-white flex items-center justify-center gap-2 transition-all shadow-sm active:scale-95"
                     >
                       <Plus size={16} /> Add Grau
                     </button>
@@ -457,7 +457,7 @@ export const Students = () => {
                 <div className="grid grid-cols-2 gap-3 mb-6">
                   <div
                     onClick={() => setPaymentModalOpen(true)}
-                    className="bg-gray-50 p-3 rounded-2xl border border-gray-100 flex flex-col items-center justify-center gap-1 cursor-pointer active:scale-95 transition-all hover:bg-gray-100 ring-2 ring-transparent hover:ring-gray-200"
+                    className="bg-gray-50 dark:bg-gray-700/50 p-3 rounded-2xl border border-gray-100 dark:border-gray-700 flex flex-col items-center justify-center gap-1 cursor-pointer active:scale-95 transition-all hover:bg-gray-100 dark:hover:bg-gray-700 ring-2 ring-transparent hover:ring-gray-200 dark:hover:ring-gray-600"
                   >
                     <span className="text-[10px] font-bold uppercase text-gray-400">Financeiro</span>
                     {(() => {
@@ -474,9 +474,9 @@ export const Students = () => {
                       <span className="text-[10px] text-gray-400 font-bold mt-1">Dia {selectedStudent.dueDay}</span>
                     )}
                   </div>
-                  <div className="bg-gray-50 p-3 rounded-2xl border border-gray-100 flex flex-col items-center justify-center gap-1">
+                  <div className="bg-gray-50 dark:bg-gray-700/50 p-3 rounded-2xl border border-gray-100 dark:border-gray-700 flex flex-col items-center justify-center gap-1">
                     <span className="text-[10px] font-bold uppercase text-gray-400">Presença</span>
-                    <div className="flex items-center gap-1.5 text-gray-700">
+                    <div className="flex items-center gap-1.5 text-gray-700 dark:text-gray-300">
                       <CalendarCheck size={16} />
                       <span className="text-sm font-bold">{selectedStudent.classesAttended || 0} Aulas</span>
                     </div>
@@ -496,7 +496,7 @@ export const Students = () => {
                     </button>
                     <button
                       onClick={() => handleFinancialClick(selectedStudent)}
-                      className="h-12 flex items-center justify-center gap-2 rounded-xl bg-blue-50 text-blue-700 font-bold text-sm hover:bg-blue-100 transition-colors"
+                      className="h-12 flex items-center justify-center gap-2 rounded-xl bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 font-bold text-sm hover:bg-blue-100 dark:hover:bg-blue-900/50 transition-colors"
                     >
                       <Wallet size={18} />
                       Financeiro
@@ -515,10 +515,10 @@ export const Students = () => {
               // HISTORY VIEW
               <div className="animate-in slide-in-from-right-5 duration-300">
                 <div className="flex items-center gap-2 mb-4">
-                  <button onClick={() => setShowHistory(false)} className="p-2 hover:bg-gray-100 rounded-full">
-                    <ArrowLeft size={18} className="text-gray-600" />
+                  <button onClick={() => setShowHistory(false)} className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full">
+                    <ArrowLeft size={18} className="text-gray-600 dark:text-gray-300" />
                   </button>
-                  <h3 className="text-lg font-bold text-gray-900">Histórico de Graduação</h3>
+                  <h3 className="text-lg font-bold text-gray-900 dark:text-white">Histórico de Graduação</h3>
                 </div>
 
                 <div className="relative border-l-2 border-gray-100 ml-4 space-y-6 pb-4">
